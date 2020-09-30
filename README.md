@@ -6,7 +6,7 @@ This project was developed in week 7 of the data science bootcamp at Spiced.
 
 
 
-![](/home/simon/Desktop/spiced/_archive/slack-bot/pictures/pipeline.png)
+![](pictures/pipeline.png)
 
 ## To Do:
 
