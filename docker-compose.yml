@@ -1,0 +1,49 @@
+version: '3'
+services:
+
+  tweet_collector:
+    build: tweet_collector/
+    volumes:
+      - ./tweet_collector/:/code
+    links:
+      - mongodb
+
+  postgresdb:
+    image: postgres:9.6
+    environment:
+    - POSTGRES_PASSWORD=1234
+    # map a port from my local machine to a port in the container
+    # local:container
+    expose:
+    - "5555"
+    ports:
+    - "5555:5432"
+
+  mongodb:
+    image: mongo
+    ports:
+    - "27018:27017"
+
+  etl_job:
+    build: etl_job/
+    volumes:
+      - ./etl_job/:/code
+    links:
+      - postgresdb
+      - mongodb
+
+  slack_bot:
+    build: slack_bot/
+    volumes:
+      - ./slack_bot/:/code
+    links:
+     - postgresdb
+
+  airflow:
+    image: puckel/docker-airflow
+    ports:
+    - "8081:8080"
+    command: ["webserver", "scheduler"]
+    volumes:
+        - ./docker-airflow/dags/:/usr/local/airflow/dags
+        - ./docker-airflow/requirements.txt:/requirements.txt
