@@ -1,0 +1,5 @@
+psycopg2-binary
+sqlalchemy
+pandas
+slackclient==2.0.1
+config
